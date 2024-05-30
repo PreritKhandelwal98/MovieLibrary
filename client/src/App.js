@@ -6,9 +6,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from './components/Login';
 import Register from './components/Register';
 import MyList from './components/MyList';
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <div className="App">
+      <Toaster />
       <BrowserRouter>
         <Header />
         <Routes>
