@@ -5,6 +5,7 @@ require('dotenv').config();
 const connectDB = require('./config/connectDB')
 
 const router = require('./routes/index')
+const listRoutes = require('./routes/listRoute')
 
 const cookiesParser = require('cookie-parser')
 
@@ -26,6 +27,8 @@ app.get('/', (req, res) => {
 
 //api route call
 app.use('/api', router);
+//api list route
+app.use('/api/lists', listRoutes);
 
 connectDB().then(() => {
     console.log("DB connected successfully")

@@ -1,14 +1,28 @@
-import Logo from '../assets/logo.png'
-import { Link } from 'react-router-dom'
+// src/components/Header.js
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import Logo from '../assets/logo.png';
+
 const Header = () => {
+    const { isLoggedIn, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
-        <div className="flex justify-between border-b-2 shadow-lg ">
+        <div className="flex justify-between border-b-2 shadow-lg">
             <div className="items-center flex">
-                <Link to='/'><img
-                    src={Logo}
-                    className=" w-36 h-24 items-center cursor-pointer ml-8"
-                /></Link>
+                <Link to='/'>
+                    <img
+                        src={Logo}
+                        className="w-36 h-24 items-center cursor-pointer ml-8"
+                        alt="Logo"
+                    />
+                </Link>
             </div>
 
             <div>
@@ -23,17 +37,25 @@ const Header = () => {
                             MyList
                         </Link>
                     </li>
-                    <button
-                        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-4 rounded-lg"
-                    >
-                        <Link to="/register">
-                            Login/SignUp
-                        </Link>
-                    </button>
-
+                    {isLoggedIn ? (
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <button
+                            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-4 rounded-lg"
+                        >
+                            <Link to="/register">
+                                Login/SignUp
+                            </Link>
+                        </button>
+                    )}
                 </ul>
             </div>
-        </div >
+        </div>
     );
 };
 
