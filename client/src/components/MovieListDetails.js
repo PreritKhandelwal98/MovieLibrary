@@ -12,7 +12,6 @@ const MovieListDetails = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             const fetchWithToken = async (token) => {
-                console.log('Fetching list details with token:', token); // Log token usage
                 const response = await fetch(`http://localhost:8000/api/lists/details/${listId}`, {
                     method: 'GET',
                     headers: {
@@ -22,7 +21,6 @@ const MovieListDetails = () => {
                 });
 
                 if (!response.ok) {
-                    console.log('Failed to fetch list details, status:', response.status); // Log fetch status
                     if (response.status === 403) {
                         navigate('/unauthorized');
                         toast.error('You do not have access to view this list');
@@ -38,7 +36,6 @@ const MovieListDetails = () => {
                 let data;
                 const token = localStorage.getItem('token');
 
-                console.log('Token from local storage:', token); // Log token retrieved from local storage
 
                 if (token) {
                     data = await fetchWithToken(token);
@@ -46,12 +43,10 @@ const MovieListDetails = () => {
 
                 if (!data) {
                     // If fetching with token fails or token is not present, try fetching without token
-                    console.log('Fetching list details without token'); // Log token absence
                     data = await fetchWithToken(null);
                 }
 
                 if (data) {
-                    console.log('Fetched movies:', data); // Log fetched movies
                     setMovies(data);
                 }
             } catch (err) {
