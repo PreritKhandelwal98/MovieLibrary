@@ -18,7 +18,7 @@ router.delete('/:id', listController.deleteListById); // Delete a list by ID
 // Route for adding movies to a list
 router.put('/add-movies/:id', listController.addMoviesToList);
 router.patch('/toggle-visibility/:id', listController.toggleListVisibility);
-router.get('/details/:id', listController.getListDetails);
+//router.get('/details/:id', listController.getListDetails);
 
 
 module.exports = router;
