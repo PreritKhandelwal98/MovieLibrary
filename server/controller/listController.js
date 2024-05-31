@@ -119,6 +119,60 @@ const addMoviesToList = async (req, res) => {
     }
 };
 
+// Toggle visibility of a list
+const toggleListVisibility = async (req, res) => {
+    try {
+        const listId = req.params.id;
+        const list = await List.findById(listId);
+
+        if (!list) {
+            return res.status(404).json({ message: 'List not found' });
+        }
+
+        list.isPublic = !list.isPublic;
+        const updatedList = await list.save();
+
+        res.json(updatedList);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+const getListDetails = async (req, res) => {
+    try {
+        console.log('Received request for list details'); // Log entry point
+
+        const listId = req.params.id;
+        const list = await List.findById(listId).populate('movies');
+
+        if (!list) {
+            console.log('List not found:', listId); // Log when list is not found
+            return res.status(404).json({ message: 'List not found' });
+        }
+
+        const userId = req.user ? req.user._id : null;
+        console.log('User ID:', userId); // Log user ID
+        console.log('List is public:', list.isPublic); // Log list visibility
+
+        // Check if the list is private
+        if (!list.isPublic && (!userId || !list.owner.equals(userId))) {
+            console.log('Access denied for user:', userId); // Log access denied
+            return res.status(403).json({ message: 'You do not have access to view this list' });
+        }
+
+        console.log('Returning movies for list:', listId); // Log successful data fetch
+        res.json(list.movies); // Only return the movies
+    } catch (error) {
+        console.error('Server error:', error); // Log server errors
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+
+
+
+
+
 
 module.exports = {
     createList,
@@ -126,5 +180,7 @@ module.exports = {
     getListById,
     updateListById,
     deleteListById,
-    addMoviesToList
+    addMoviesToList,
+    toggleListVisibility,
+    getListDetails
 };

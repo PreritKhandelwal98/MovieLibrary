@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function MyList() {
     const [lists, setLists] = useState([]);
-    const [visibleListId, setVisibleListId] = useState(null); // State to track which list's details are visible
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLists = async () => {
@@ -20,7 +22,7 @@ function MyList() {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                        'Authorization': `Bearer ${token}`,
                     },
                 });
 
@@ -41,8 +43,37 @@ function MyList() {
     }, []);
 
     const handleListClick = (listId) => {
-        // Toggle the visibility of the selected list's movies
-        setVisibleListId((prevListId) => (prevListId === listId ? null : listId));
+        navigate(`/lists/${listId}`);
+    };
+
+    const handleToggleVisibility = async (listId) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('User not logged in');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/lists/toggle-visibility/${listId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to toggle visibility');
+            }
+
+            const updatedList = await response.json();
+            setLists((prevLists) =>
+                prevLists.map((list) => (list._id === updatedList._id ? updatedList : list))
+            );
+            toast.success(`List visibility updated to ${updatedList.isPublic ? 'Public' : 'Private'}`);
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     if (isLoading) {
@@ -54,36 +85,35 @@ function MyList() {
     }
 
     return (
-        <div>
-            <h1>My Lists</h1>
+        <div className="p-4">
+            <h1 className="text-3xl font-bold mb-6">My Lists</h1>
             {lists.length > 0 ? (
-                <ul>
+                <div className="space-y-4">
                     {lists.map((list) => (
-                        <li key={list._id}>
-                            <button
-                                onClick={() => handleListClick(list._id)}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                {list.name}
-                            </button>
-                            {visibleListId === list._id && (
-                                <ul className="mt-2 ml-4">
-                                    {list.movies.map((movie) => (
-                                        <li key={movie._id} className="mb-2">
-                                            <h3 className="text-xl font-bold">{movie.Title}</h3>
-                                            <p><strong>Genre:</strong> {movie.Genre}</p>
-                                            <p><strong>IMDB Rating:</strong> {movie.imdbRating} stars</p>
-                                            <p><strong>Runtime:</strong> {movie.Runtime}</p>
-                                            <p><strong>Released:</strong> {movie.Released}</p>
-                                            <p><strong>Plot:</strong> {movie.Plot}</p>
-                                            <img src={movie.Poster} alt={movie.Title} className="w-32" />
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
+                        <div key={list._id} className="bg-white shadow-lg rounded-lg p-4">
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-2xl font-bold">{list.name}</h2>
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleListClick(list._id)}
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Show Movies
+                                    </button>
+                                    <button
+                                        onClick={() => handleToggleVisibility(list._id)}
+                                        className={`py-2 px-4 rounded font-bold ${list.isPublic
+                                            ? 'bg-green-500 hover:bg-green-700 text-white'
+                                            : 'bg-red-500 hover:bg-red-700 text-white'
+                                            }`}
+                                    >
+                                        {list.isPublic ? 'Make Private' : 'Make Public'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             ) : (
                 <p>No lists found.</p>
             )}

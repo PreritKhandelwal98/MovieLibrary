@@ -1,4 +1,3 @@
-// src/components/Header.js
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -32,11 +31,13 @@ const Header = () => {
                             Home
                         </Link>
                     </li>
-                    <li className="m-4 cursor-pointer">
-                        <Link to="/my-list">
-                            MyList
-                        </Link>
-                    </li>
+                    {isLoggedIn && ( // Only render if user is logged in
+                        <li className="m-4 cursor-pointer">
+                            <Link to="/my-list">
+                                MyList
+                            </Link>
+                        </li>
+                    )}
                     {isLoggedIn ? (
                         <button
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg"

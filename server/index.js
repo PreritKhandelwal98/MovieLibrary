@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
 app.use('/api', router);
 //api list route
 app.use('/api/lists', listRoutes);
+// Define the getListDetails function
 
 connectDB().then(() => {
     console.log("DB connected successfully")

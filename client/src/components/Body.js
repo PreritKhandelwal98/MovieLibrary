@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Body = () => {
     const [searchText, setSearchText] = useState("");
@@ -7,6 +8,8 @@ const Body = () => {
     const [isLoading, setIsLoading] = useState(false); // State to manage loading state
     const [error, setError] = useState(null); // State to manage error state
     const [saveError, setSaveError] = useState(null); // State to manage save error state
+
+    const navigate = useNavigate();
 
     const fetchData = async (title) => {
         setIsLoading(true);
@@ -40,6 +43,14 @@ const Body = () => {
     const handleSave = async () => {
         if (!movieData) return;
         const token = localStorage.getItem('token');
+
+        if (!token) {
+            toast.error("Please log in.");
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+            return;
+        }
 
         try {
             // Fetch user's lists
@@ -118,7 +129,6 @@ const Body = () => {
             setSaveError(err.message);
         }
     };
-
 
     return (
         <div className="body mt-14 mx-4">

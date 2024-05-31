@@ -6,7 +6,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from './components/Login';
 import Register from './components/Register';
 import MyList from './components/MyList';
+import MovieListDetails from './components/MovieListDetails'
 import { Toaster } from 'react-hot-toast';
+import Unauthorized from './components/Unauthorized';
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/my-list" element={<MyList />} />
+          <Route path="/lists/:listId" element={<MovieListDetails />} />
+          <Route path="/unauthorized" component={<Unauthorized />} />
+
         </Routes>
       </BrowserRouter>
     </div>
