@@ -70,7 +70,7 @@ app.get('/api/lists/details/:id', async (req, res) => {
 
 // Apply the protect middleware to routes that require user authentication
 app.use('/api/lists', protect, listRoutes);
-
+app.use('/api', router)
 connectDB().then(() => {
     console.log("DB connected successfully");
 });

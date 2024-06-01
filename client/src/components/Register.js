@@ -28,7 +28,7 @@ const Register = () => {
         e.preventDefault()
         e.stopPropagation()
 
-        const URL = `http://localhost:8000/api/register`
+        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/register`
 
         try {
 

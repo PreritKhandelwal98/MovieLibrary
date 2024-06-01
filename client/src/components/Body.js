@@ -17,7 +17,7 @@ const Body = () => {
         setSaveError(null);
         try {
             const data = await fetch(
-                `http://www.omdbapi.com/?apikey=e0f771f1&t=${title}`
+                `${process.env.REACT_APP_OMDB_API_KEY}=${title}`
             );
             const jsonData = await data.json();
             if (jsonData.Response === "False") {
@@ -54,7 +54,7 @@ const Body = () => {
 
         try {
             // Fetch user's lists
-            const response = await fetch('http://localhost:8000/api/lists', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -76,7 +76,7 @@ const Body = () => {
             if (selectedListOption === 'new') {
                 const newListName = prompt('Enter the name for your new list:');
                 if (newListName) {
-                    const newListResponse = await fetch('http://localhost:8000/api/lists', {
+                    const newListResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const Body = () => {
                     const { _id: id } = userLists.find(list => list.name === selectedList); // Destructure _id from found list object
                     console.log("this is id:", id);
                     // Add the movie to the selected list
-                    const addMovieResponse = await fetch(`http://localhost:8000/api/lists/add-movies/${id}`, {
+                    const addMovieResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists/add-movies/${id}`, {
                         method: 'PUT', // Use PUT method to update the list
                         headers: {
                             'Content-Type': 'application/json',

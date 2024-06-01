@@ -12,7 +12,7 @@ const MovieListDetails = () => {
     useEffect(() => {
         const fetchMovies = async () => {
             const fetchWithToken = async (token) => {
-                const response = await fetch(`http://localhost:8000/api/lists/details/${listId}`, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists/details/${listId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

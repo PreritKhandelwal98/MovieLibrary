@@ -18,7 +18,7 @@ function MyList() {
             }
 
             try {
-                const response = await fetch('http://localhost:8000/api/lists', {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function MyList() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/lists/toggle-visibility/${listId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists/toggle-visibility/${listId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

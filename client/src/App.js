@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Body from './components/Body';
@@ -9,6 +8,8 @@ import MyList from './components/MyList';
 import MovieListDetails from './components/MovieListDetails'
 import { Toaster } from 'react-hot-toast';
 import Unauthorized from './components/Unauthorized';
+import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
 
 function App() {
   return (
@@ -18,11 +19,11 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Body />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/my-list" element={<MyList />} />
-          <Route path="/lists/:listId" element={<MovieListDetails />} />
-          <Route path="/unauthorized" component={<Unauthorized />} />
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+          <Route path="/my-list" element={<ProtectedRoute><MyList /></ProtectedRoute>} />
+          <Route path="/lists/:listId" element={<ProtectedRoute><MovieListDetails /></ProtectedRoute>} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
         </Routes>
       </BrowserRouter>
