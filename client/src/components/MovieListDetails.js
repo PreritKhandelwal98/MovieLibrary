@@ -11,46 +11,30 @@ const MovieListDetails = () => {
 
     useEffect(() => {
         const fetchMovies = async () => {
-            const fetchWithToken = async (token) => {
+            try {
+                const token = localStorage.getItem('token');
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/lists/details/${listId}`, {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...(token && { 'Authorization': `Bearer ${token}` }),
-                    }
+                    headers
                 });
 
                 if (!response.ok) {
                     if (response.status === 403) {
-                        navigate('/unauthorized');
                         toast.error('You do not have access to view this list');
-                        return null;
+                        navigate('/unauthorized');
+                        return;
                     }
                     throw new Error('Failed to fetch list details');
                 }
 
-                return await response.json();
-            };
-
-            try {
-                let data;
-                const token = localStorage.getItem('token');
-
-
-                if (token) {
-                    data = await fetchWithToken(token);
-                }
-
-                if (!data) {
-                    // If fetching with token fails or token is not present, try fetching without token
-                    data = await fetchWithToken(null);
-                }
-
-                if (data) {
-                    setMovies(data);
-                }
+                const data = await response.json();
+                setMovies(data);
             } catch (err) {
-                console.error('Error fetching list details:', err.message); // Log fetch errors
+                console.error('Error fetching list details:', err.message);
                 setError(err.message);
             } finally {
                 setIsLoading(false);

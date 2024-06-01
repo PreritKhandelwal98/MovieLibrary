@@ -22,7 +22,7 @@ function App() {
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
           <Route path="/my-list" element={<ProtectedRoute><MyList /></ProtectedRoute>} />
-          <Route path="/lists/:listId" element={<ProtectedRoute><MovieListDetails /></ProtectedRoute>} />
+          <Route path="/lists/:listId" element={<MovieListDetails />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
         </Routes>
