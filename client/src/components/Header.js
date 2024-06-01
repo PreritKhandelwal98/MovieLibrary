@@ -31,10 +31,10 @@ const Header = () => {
                             Home
                         </Link>
                     </li>
-                    {isLoggedIn && ( // Only render if user is logged in
+                    {isLoggedIn && (
                         <li className="m-4 cursor-pointer">
                             <Link to="/my-list">
-                                MyList
+                                My List
                             </Link>
                         </li>
                     )}
@@ -46,13 +46,13 @@ const Header = () => {
                             Logout
                         </button>
                     ) : (
-                        <button
-                            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-4 rounded-lg"
-                        >
-                            <Link to="/register">
+                        <Link to="/register">
+                            <button
+                                className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-lg"
+                            >
                                 Login/SignUp
-                            </Link>
-                        </button>
+                            </button>
+                        </Link>
                     )}
                 </ul>
             </div>
