@@ -28,7 +28,7 @@ const MovieListDetails = () => {
                         navigate('/unauthorized');
                         return;
                     }
-                    throw new Error('Failed to fetch list details');
+                    throw new Error('You do not have access to view this list');
                 }
 
                 const data = await response.json();
