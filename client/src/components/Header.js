@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Logo from '../assets/logo.png';
+import toast from 'react-hot-toast';
 
 const Header = () => {
     const { isLoggedIn, logout } = useContext(AuthContext);
@@ -10,6 +11,16 @@ const Header = () => {
     const handleLogout = () => {
         logout();
         navigate('/login');
+    };
+
+    const handleMyListClick = (e) => {
+        if (!isLoggedIn) {
+            e.preventDefault();
+            toast.error("Login Required.");
+            setTimeout(() => {
+                navigate('/login');
+            }, 1000);
+        }
     };
 
     return (
@@ -31,13 +42,11 @@ const Header = () => {
                             Home
                         </Link>
                     </li>
-                    {isLoggedIn && (
-                        <li className="m-4 cursor-pointer">
-                            <Link to="/my-list">
-                                My List
-                            </Link>
-                        </li>
-                    )}
+                    <li className="m-4 cursor-pointer">
+                        <Link to="/my-list" onClick={handleMyListClick}>
+                            My List
+                        </Link>
+                    </li>
                     {isLoggedIn ? (
                         <button
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg"
