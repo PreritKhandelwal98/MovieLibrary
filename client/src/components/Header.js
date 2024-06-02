@@ -16,7 +16,7 @@ const Header = () => {
     const handleMyListClick = (e) => {
         if (!isLoggedIn) {
             e.preventDefault();
-            toast.error("Login Required.");
+            toast.error("Please log in to access this page.");
             setTimeout(() => {
                 navigate('/login');
             }, 1000);
