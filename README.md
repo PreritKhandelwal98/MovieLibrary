@@ -11,7 +11,7 @@ Clone the Repository
 https://github.com/PreritKhandelwal98/MovieLibrary.git
 ```
 ## Environment Setup
-Create a `.env` file in the root folder and copy-paste the content of `.env.sample`, then add the necessary credentials. This seprate `.env` file is for both the frontend and backend.
+Create a `.env` file in the root folder and copy-paste the content of `.env.sample`, then add the necessary credentials. This `.env` file is for both the frontend and backend.
 
 ## Backend Setup
 
