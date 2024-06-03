@@ -198,7 +198,7 @@ const Body = () => {
                 {error && <p className="text-red-500">{error}</p>}
                 {saveError && <p className="text-red-500">{saveError}</p>}
                 {!movieData && !isLoading && !error && (
-                    <p className="text-gray-500">Search for a movie to see its details.</p>
+                    <p className="text-gray-500 font-bold" style={{ fontFamily: 'Arial, sans-serif' }}>Search for a movie to see its details.</p>
                 )}
                 {movieData && !isLoading && !error && (
                     <div className="flex w-full max-w-4xl bg-black shadow-lg rounded-lg overflow-hidden">
