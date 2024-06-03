@@ -23,7 +23,7 @@ const MovieListDetails = () => {
                 });
 
                 if (!response.ok) {
-                    if (response.status === 403) {
+                    if (response.status === 401) {
                         toast.error('You do not have access to view this list');
                         navigate('/unauthorized');
                         return;
