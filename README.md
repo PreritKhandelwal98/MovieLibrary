@@ -1,5 +1,5 @@
 #  MovieLibrary
-## Live Demo: [Demo](https://movie-library-25abav7sy-prerit-khandelwals-projects.vercel.app/)
+## Live Demo: [Demo](https://movie-library-jade.vercel.app/)
 
 This project uses React and Node.js. It features user authentication (Sign In/Sign Up), movie search via OMDB API, and list creation similar to YouTube playlists with public or private options.
 
